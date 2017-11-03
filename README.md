@@ -69,7 +69,7 @@
   - ~~화면 UI는 제공된 예시에서 어느 정도의 수정은 가능한가요?~~
     - 네
 - 준수 사항 관련
-  - 컨벤션, 정적 코드 검사 url 체크
+  - ~~컨벤션, 정적 코드 검사 url 체크~~
   - *TDD로 하나요?*
 - 지원 브라우저
   - 최신 브라우저
@@ -80,11 +80,11 @@
 
 ### 3.1 프로젝트 구조
 
-​				Vendingmachine
-
-​						|
-
-Product		MoneyInOut		Record		User(?)
+- Vendingmachine
+  - Product
+  - MoneyInOut
+  - Record
+  - User(?)
 
 
 
