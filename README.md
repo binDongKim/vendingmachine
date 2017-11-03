@@ -103,19 +103,23 @@
 
 #### 3.1.1 클래스 별 프로퍼티 및 메서드
 
-- Product
-  - 프로퍼티
-    - name
-    - price
-    - amount
-  - 메서드
-    - onclick: 상품
-      - checkAmount
-      - purchase
-      - noticeSoldout
+- ProductDisplay
+
+  - Product
+    - 프로퍼티
+      - name
+      - price
+      - amount
+    - 메서드
+      - onclick: 상품
+        - checkAmount
+        - purchase
+        - noticeSoldout
 
 - MoneyInOut
   - 프로퍼티
+    - moneyPutSlot
+    - moneyBackButton
     - insertedMoney(moneyInVM)
     - MONEY_LIMIT
     - BILL_LIMIT
