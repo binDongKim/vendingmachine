@@ -1,0 +1,13 @@
+{
+  "name": "vendingmachine",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://oss.navercorp.com/bindong-kim/vendingmachine.git"
+  },
+  "author": "Dongbin Kim",
+  "license": "ISC",
+  "devDependencies": {}
+}
