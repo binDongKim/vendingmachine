@@ -3,17 +3,21 @@ function User({name = "김동빈", money = 10000} = {}) {
 		getCoinButton(value) {
 			var button = document.createElement("button");
 
-			button.className = `button money-button coin-button ${value}`
-			button.textContent = (function(value) {
-				switch(value) {
-					case "fifty":
-						return "50원";
-					case "onehundred":
-						return "100원";
-					case "fivehundred":
-						return "500원";
-				}
-			})(value);
+			button.className = `button money-button coin-button ${value}`;
+			switch(value) {
+				case "fifty":
+					button.dataset.moneyValue = 50;
+					button.textContent = "50원";
+					break;
+				case "onehundred":
+					button.dataset.moneyValue = 100;
+					button.textContent = "100원";
+					break;
+				case "fivehundred":
+					button.dataset.moneyValue = 500;
+					button.textContent = "500원";
+					break;
+			}
 
 			return button;
 		},
@@ -21,17 +25,9 @@ function User({name = "김동빈", money = 10000} = {}) {
 		getBillButton(value) {
 			var button = document.createElement("button");
 
-			button.className = `button money-button bill-button ${value}`
-			button.textContent = (function(value) {
-				switch(value) {
-					case "onethousand":
-						return "1000원";
-					case "fivethousand":
-						return "5000원";
-					case "tenthousand":
-						return "10000원";
-				}
-			})(value);
+			button.className = `button money-button bill-button ${value}`;
+			button.dataset.moneyValue = 1000;
+			button.textContent = "1000원";
 
 			return button;
 		},
