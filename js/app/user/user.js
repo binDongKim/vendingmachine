@@ -1,6 +1,6 @@
 function User({name = "김동빈", money = 10000} = {}) {
 	var userDOMBuildFuncs = {
-		buildCoinButton(value) {
+		getCoinButton(value) {
 			var button = document.createElement("button");
 
 			button.className = `button money-button coin-button ${value}`
@@ -9,7 +9,7 @@ function User({name = "김동빈", money = 10000} = {}) {
 			return button;
 		},
 
-		buildBillButton(value) {
+		getBillButton(value) {
 			var button = document.createElement("button");
 
 			button.className = `button money-button bill-button ${value}`
@@ -18,7 +18,7 @@ function User({name = "김동빈", money = 10000} = {}) {
 			return button;
 		},
 
-		buildMyMoneyContainer() {
+		getMyMoneyContainer() {
 			var p = document.createElement("p");
 			var span = document.createElement("span");
 
@@ -31,25 +31,19 @@ function User({name = "김동빈", money = 10000} = {}) {
 
 			return p;
 		}
-	}
-
-	this.getName = function() {
-		return name;
 	};
 
-	this.getMyMoney = function() {
-		return money;
-	};
-
+	this.name = name;
+	this.money = money;
 	this.purchasedProductList = [];
 
 	this.moneyButtonList = {
-		"fiftyCoinButton": userDOMBuildFuncs.buildCoinButton("fifty"),
-		"oneHundredCoinButton": userDOMBuildFuncs.buildCoinButton("onehundred"),
-		"fiveHundredCoinButton": userDOMBuildFuncs.buildCoinButton("fivehundred"),
-		"oneThousandBillButton": userDOMBuildFuncs.buildBillButton("onethousand"),
+		"fiftyCoinButton": userDOMBuildFuncs.getCoinButton("fifty"),
+		"oneHundredCoinButton": userDOMBuildFuncs.getCoinButton("onehundred"),
+		"fiveHundredCoinButton": userDOMBuildFuncs.getCoinButton("fivehundred"),
+		"oneThousandBillButton": userDOMBuildFuncs.getBillButton("onethousand"),
 	};
-	this.myMoneyContainer = userDOMBuildFuncs.buildMyMoneyContainer();
+	this.myMoneyContainer = userDOMBuildFuncs.getMyMoneyContainer();
 }
 
 User.prototype.init = function() {
