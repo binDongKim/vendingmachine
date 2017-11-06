@@ -40,6 +40,7 @@ function User({name = "김동빈", money = 10000} = {}) {
 			var p = document.createElement("p");
 			var span = document.createElement("span");
 
+			p.className = "my-money-container";
 			p.textContent = "내 돈: ";
 			span.className = "my-money";
 			span.id = "myMoney";
@@ -67,7 +68,7 @@ function User({name = "김동빈", money = 10000} = {}) {
 User.prototype.init = function() {
 	var userWrapper = dom.getWrapperAround("user-wrapper");
 	var moneyListWrapper = dom.getWrapperAround("money-list-wrapper");
-	var myMoneyContainerWrapper = dom.getWrapperAround("mymoney-container-wrapper");
+	var myMoneyContainerWrapper = dom.getWrapperAround("my-money-container-wrapper");
 
 	for (var moneyButton in this.moneyButtonList) {
 		var moneyWrapper = dom.getWrapperAround("money-wrapper");
