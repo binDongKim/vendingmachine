@@ -107,9 +107,12 @@
 
   - Product
     - 프로퍼티
+      - productId
       - name
+      - enName(영어이름)
       - price
       - amount
+      - productFigure(상품을 담은 마크업요소)
     - 메서드
       - onclick: 상품
         - checkAmount
@@ -118,9 +121,10 @@
 
 - MoneyInOut
   - 프로퍼티
-    - moneyPutSlot
+    - moneyPutArea
     - moneyBackButton
-    - insertedMoney(moneyInVM)
+    - insertedMoneyContainer
+    - insertedMoney
     - MONEY_LIMIT
     - BILL_LIMIT
   - 메서드
@@ -145,6 +149,8 @@
     - name
     - money
     - purchasedProduct
+    - moneyButtonList(50원, 100원, 500원, 1000원 버튼을 담은 요소들을 갖고있는 객체)
+    - myMoneyContainer(money를 담고있는 요소)
   - 메서드
     - ondrag
       - takeoutMoney
