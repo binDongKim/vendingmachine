@@ -43,7 +43,7 @@ function User({name = "김동빈", money = 10000} = {}) {
 			p.textContent = "내 돈: ";
 			span.className = "my-money";
 			span.id = "myMoney";
-			span.textContent = money;
+			span.textContent = `${money}원`;
 
 			p.appendChild(span);
 
