@@ -1,11 +1,15 @@
-function VendingMachine() {
+function VendingMachine(id) {
+	this.id = id;
+
 	this.productDisplay = new ProductDisplay();
 	this.moneyInOut = new MoneyInOut();
-	this.record = new Record();
 }
 
 VendingMachine.prototype.init = function() {
-	this.productDisplay.init();
-	this.moneyInOut.init();
-	this.record.init();
+	var vendingMachineWrapper = dom.getWrapperAround("vending-machine-wrapper");
+
+	this.productDisplay.init(vendingMachineWrapper);
+	this.moneyInOut.init(vendingMachineWrapper);
+
+	dom.root.appendChild(vendingMachineWrapper);
 };

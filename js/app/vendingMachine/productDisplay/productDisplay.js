@@ -19,7 +19,7 @@ function ProductDisplay() {
 	}
 }
 
-ProductDisplay.prototype.init = function() {
+ProductDisplay.prototype.init = function(vendingMachineWrapper) {
 	// 배치 랜덤.
 	var shuffledProductList = util.getShuffledArray(this.productList);
 	var productDisplayWrapper = dom.getWrapperAround("product-display-wrapper");
@@ -27,6 +27,6 @@ ProductDisplay.prototype.init = function() {
 	shuffledProductList.forEach(function(product) {
 		product.init(productDisplayWrapper);
 	});
-	
-	dom.root.appendChild(productDisplayWrapper);
+
+	vendingMachineWrapper.appendChild(productDisplayWrapper);
 };
