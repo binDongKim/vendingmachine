@@ -19,6 +19,8 @@ function User({name = "김동빈", money = 10000} = {}) {
 					break;
 			}
 
+			button.draggable = true;
+
 			return button;
 		},
 
@@ -28,6 +30,7 @@ function User({name = "김동빈", money = 10000} = {}) {
 			button.className = `button money-button bill-button ${value}`;
 			button.dataset.moneyValue = 1000;
 			button.textContent = "1000원";
+			button.draggable = true;
 
 			return button;
 		},
@@ -79,4 +82,16 @@ User.prototype.init = function() {
 	userWrapper.appendChild(myMoneyContainerWrapper);
 
 	dom.root.appendChild(userWrapper);
+
+	this.addListeners();
+};
+
+User.prototype.addListeners = function() {
+	for (var moneyButton in this.moneyButtonList) {
+		this.moneyButtonList[moneyButton].addEventListener("dragstart", this.handleDragStart);
+	}
+};
+
+User.prototype.handleDragStart = function(e) {
+	e.dataTransfer.setData("text", this.dataset.moneyValue);
 };

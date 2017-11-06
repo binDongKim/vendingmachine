@@ -62,4 +62,25 @@ MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 	moneyInOutWrapper.appendChild(moneyBackButtonWrapper);
 
 	vendingMachineWrapper.appendChild(moneyInOutWrapper);
+
+	this.addListeners();
 };
+
+MoneyInOut.prototype.addListeners = function() {
+	this.moneyPutArea.addEventListener("dragover", this.handleDragOver);
+	this.moneyPutArea.addEventListener("drop", this.handleDrop);
+};
+
+MoneyInOut.prototype.handleDragOver = function(e) {
+	e.preventDefault();
+};
+
+MoneyInOut.prototype.handleDrop = function(e) {
+	e.preventDefault();
+
+	var passedMoney = e.dataTransfer.getData("text");
+	var insertedMoneySpan = document.getElementById("insertedMoney");
+	var currentInsertedMoney = util.getNumberOnly(insertedMoneySpan.textContent);
+
+	insertedMoneySpan.textContent = `${currentInsertedMoney + Number(passedMoney)}원`;
+}
