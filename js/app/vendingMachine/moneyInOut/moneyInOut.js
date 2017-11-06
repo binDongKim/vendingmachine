@@ -51,15 +51,15 @@ function MoneyInOut({moneyLimit = 3000, billLimit = 2} = {}) {
 MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 	var moneyInOutWrapper = dom.getWrapperAround("money-in-out-wrapper");
 	var moneyPutAreaWrapper = this.moneyPutArea;
-	var moneyBackButtonWrapper = dom.getWrapperAround("money-back-button-wrapper");
 	var insertedMoneyContainerWrapper = dom.getWrapperAround("inserted-money-container-wrapper");
+	var moneyBackButtonWrapper = dom.getWrapperAround("money-back-button-wrapper");
 
 	moneyBackButtonWrapper.appendChild(this.moneyBackButton);
 	insertedMoneyContainerWrapper.appendChild(this.insertedMoneyContainer);
 
 	moneyInOutWrapper.appendChild(moneyPutAreaWrapper);
-	moneyInOutWrapper.appendChild(moneyBackButtonWrapper);
 	moneyInOutWrapper.appendChild(insertedMoneyContainerWrapper);
+	moneyInOutWrapper.appendChild(moneyBackButtonWrapper);
 
 	vendingMachineWrapper.appendChild(moneyInOutWrapper);
 };
