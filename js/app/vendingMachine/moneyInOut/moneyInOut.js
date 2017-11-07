@@ -46,6 +46,7 @@ function MoneyInOut(eventTrigger, {moneyLimit = 3000, billLimit = 2} = {}) {
 	this.eventTrigger = eventTrigger;
 	this.insertedMoney = 0;
 	this.moneyLimit = moneyLimit;
+	this.currentBillCount = 0;
 	this.billLimit = billLimit;
 
 	this.moneyPutArea = moneyInOutDOMBuildFuncs.getMoneyPutArea();
@@ -91,16 +92,44 @@ MoneyInOut.prototype.addListener = function() {
 // 	e.preventDefault();
 // };
 
+MoneyInOut.prototype.checkMaxMoneyLimit = function(money) {
+	return this.insertedMoney + money <= this.moneyLimit;
+};
+
+MoneyInOut.prototype.checkMaxBillLimit = function(money) {
+	return this.currentBillCount !== this.billLimit;
+};
+
+//TODO: isMoneyAcceptable 리팩토링.
 MoneyInOut.prototype.handleDrop = function(e) {
 	e.preventDefault();
 
 	var droppedMoney = Number(e.dataTransfer.getData("text"));
+	var isMoneyAcceptable = false;
+	var isMoneyBill = droppedMoney === 1000;
 
-	this.insertedMoney += droppedMoney;
-	this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
+	if (isMoneyBill) {
+		isMoneyAcceptable = this.checkMaxBillLimit(droppedMoney) && this.checkMaxMoneyLimit(droppedMoney);
+	} else {
+		isMoneyAcceptable = this.checkMaxMoneyLimit(droppedMoney);
+	}
+
+	if (isMoneyAcceptable) {
+		if (isMoneyBill) {
+			this.currentBillCount++;
+		}
+
+		this.insertedMoney += droppedMoney;
+		this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
+		this.eventTrigger.moneyAccepted(e);
+	} else {
+		this.eventTrigger.moneyRefused(e);
+		//TODO: Limit도달 경고 띄우기.
+	}
 };
 
 MoneyInOut.prototype.handleMoneyBackButtonClick = function(e) {
 	this.insertedMoney = 0;
+	this.currentBillCount = 0;
 	this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
 };

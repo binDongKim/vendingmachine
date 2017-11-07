@@ -77,7 +77,8 @@ function User(eventTrigger, {name = "김동빈", myMoney = 10000} = {}) {
 
 User.prototype.attachTrigger = function() {
 	this.eventTrigger.on("DRAG_STARTED", this.handleDragStart.bind(this));
-	this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDropOnTarget.bind(this));
+	// this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDropOnTarget.bind(this));
+	this.eventTrigger.on("MONEY_ACCEPTED", this.moneyAccepted.bind(this));
 	this.eventTrigger.on("DROPPED_OFF_TARGET", this.handleDropOffTarget.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
 };
@@ -114,14 +115,23 @@ User.prototype.handleDragStart = function(e) {
 	e.dataTransfer.setData("text", e.target.dataset.moneyValue);
 };
 
-User.prototype.handleDropOnTarget = function(e) {
+// User.prototype.handleDropOnTarget = function(e) {
+// 	var droppedMoney = Number(e.dataTransfer.getData("text"));
+//
+// 	this.putMoney += droppedMoney;
+// 	this.myMoney -= droppedMoney;
+//
+// 	this.myMoneySpan.textContent = `${this.myMoney}원`;
+// };
+
+User.prototype.moneyAccepted = function(e) {
 	var droppedMoney = Number(e.dataTransfer.getData("text"));
 
 	this.putMoney += droppedMoney;
 	this.myMoney -= droppedMoney;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
-};
+}
 
 User.prototype.handleDropOffTarget = function(e) {
 	var droppedMoney = Number(e.dataTransfer.getData("text"));
