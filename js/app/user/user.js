@@ -1,4 +1,4 @@
-function User({name = "김동빈", money = 10000} = {}) {
+function User(eventTrigger, {name = "김동빈", money = 10000} = {}) {
 	var userDOMBuildFuncs = {
 		getCoinButton(value) {
 			var button = document.createElement("button");
@@ -51,6 +51,7 @@ function User({name = "김동빈", money = 10000} = {}) {
 		}
 	};
 
+	this.eventTrigger = eventTrigger;
 	this.name = name;
 	this.money = money;
 	this.purchasedProductList = [];
@@ -62,7 +63,13 @@ function User({name = "김동빈", money = 10000} = {}) {
 		"oneThousandBillButton": userDOMBuildFuncs.getBillButton("onethousand"),
 	};
 	this.myMoneyContainer = userDOMBuildFuncs.getMyMoneyContainer();
+
+	this.attachTrigger();
 }
+
+User.prototype.attachTrigger = function() {
+	this.eventTrigger.on("DRAG_START", this.handleDragStart.bind(this));
+};
 
 User.prototype.init = function() {
 	var userWrapper = dom.getWrapperAround("user-wrapper");
@@ -83,15 +90,15 @@ User.prototype.init = function() {
 
 	dom.root.appendChild(userWrapper);
 
-	this.addListeners();
+	this.addListener();
 };
 
-User.prototype.addListeners = function() {
+User.prototype.addListener = function() {
 	for (var moneyButton in this.moneyButtonList) {
-		this.moneyButtonList[moneyButton].addEventListener("dragstart", this.handleDragStart);
+		this.moneyButtonList[moneyButton].addEventListener("dragstart", this.eventTrigger.handleDragStart.bind(this.eventTrigger));
 	}
 };
 
 User.prototype.handleDragStart = function(e) {
-	e.dataTransfer.setData("text", this.dataset.moneyValue);
+	e.dataTransfer.setData("text", e.target.dataset.moneyValue);
 };

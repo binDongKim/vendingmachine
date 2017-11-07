@@ -1,4 +1,4 @@
-function MoneyInOut({moneyLimit = 3000, billLimit = 2} = {}) {
+function MoneyInOut(eventTrigger, {moneyLimit = 3000, billLimit = 2} = {}) {
 	var moneyInOutDOMBuildFuncs = {
 		getMoneyPutArea() {
 			var div = document.createElement("div");
@@ -39,6 +39,7 @@ function MoneyInOut({moneyLimit = 3000, billLimit = 2} = {}) {
 		}
 	};
 
+	this.eventTrigger = eventTrigger;
 	this.insertedMoney = 0;
 	this.moneyLimit = moneyLimit;
 	this.billLimit = billLimit;
@@ -46,7 +47,14 @@ function MoneyInOut({moneyLimit = 3000, billLimit = 2} = {}) {
 	this.moneyPutArea = moneyInOutDOMBuildFuncs.getMoneyPutArea();
 	this.moneyBackButton = moneyInOutDOMBuildFuncs.getMoneyBackButton();
 	this.insertedMoneyContainer = moneyInOutDOMBuildFuncs.getInsertedMoneyContainer();
+
+	this.attachTrigger();
 }
+
+MoneyInOut.prototype.attachTrigger = function() {
+	this.eventTrigger.on("DRAG_OVER", this.handleDragOver.bind(this));
+	this.eventTrigger.on("DROP", this.handleDrop.bind(this));
+};
 
 MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 	var moneyInOutWrapper = dom.getWrapperAround("money-in-out-wrapper");
@@ -63,12 +71,12 @@ MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 
 	vendingMachineWrapper.appendChild(moneyInOutWrapper);
 
-	this.addListeners();
+	this.addListener();
 };
 
-MoneyInOut.prototype.addListeners = function() {
-	this.moneyPutArea.addEventListener("dragover", this.handleDragOver);
-	this.moneyPutArea.addEventListener("drop", this.handleDrop);
+MoneyInOut.prototype.addListener = function() {
+	this.moneyPutArea.addEventListener("dragover", this.eventTrigger.handleDragOver.bind(this.eventTrigger));
+	this.moneyPutArea.addEventListener("drop", this.eventTrigger.handleDrop.bind(this.eventTrigger));
 };
 
 MoneyInOut.prototype.handleDragOver = function(e) {

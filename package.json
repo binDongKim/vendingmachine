@@ -9,5 +9,8 @@
   },
   "author": "Dongbin Kim",
   "license": "ISC",
-  "devDependencies": {}
+  "devDependencies": {},
+  "dependencies": {
+    "wolfy87-eventemitter": "^5.2.3"
+  }
 }

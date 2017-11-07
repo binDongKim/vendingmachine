@@ -1,8 +1,6 @@
-function VendingMachine(id) {
-	this.id = id;
-
-	this.productDisplay = new ProductDisplay();
-	this.moneyInOut = new MoneyInOut();
+function VendingMachine(eventTrigger) {
+	this.productDisplay = new ProductDisplay(eventTrigger);
+	this.moneyInOut = new MoneyInOut(eventTrigger);
 }
 
 VendingMachine.prototype.init = function() {

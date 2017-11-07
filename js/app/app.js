@@ -1,6 +1,7 @@
 function App() {
-	this.vendingMachine = new VendingMachine("vm1");
-	this.user = new User();
+	var eventTrigger = new EventTrigger();
+	this.vendingMachine = new VendingMachine(eventTrigger);
+	this.user = new User(eventTrigger);
 	// this.record = new Record();
 }
 
