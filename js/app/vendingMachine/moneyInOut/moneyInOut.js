@@ -53,7 +53,7 @@ function MoneyInOut(eventTrigger, {moneyLimit = 3000, billLimit = 2} = {}) {
 
 MoneyInOut.prototype.attachTrigger = function() {
 	this.eventTrigger.on("DRAG_OVER", this.handleDragOver.bind(this));
-	this.eventTrigger.on("DROP", this.handleDrop.bind(this));
+	this.eventTrigger.on("DROP_ON_TARGET", this.handleDrop.bind(this));
 };
 
 MoneyInOut.prototype.init = function(vendingMachineWrapper) {
@@ -75,8 +75,8 @@ MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 };
 
 MoneyInOut.prototype.addListener = function() {
-	this.moneyPutArea.addEventListener("dragover", this.eventTrigger.handleDragOver.bind(this.eventTrigger));
-	this.moneyPutArea.addEventListener("drop", this.eventTrigger.handleDrop.bind(this.eventTrigger));
+	// this.moneyPutArea.addEventListener("dragover", this.eventTrigger.handleDragOver.bind(this.eventTrigger));
+	// this.moneyPutArea.addEventListener("drop", this.eventTrigger.handleDrop.bind(this.eventTrigger));
 };
 
 MoneyInOut.prototype.handleDragOver = function(e) {
@@ -86,9 +86,9 @@ MoneyInOut.prototype.handleDragOver = function(e) {
 MoneyInOut.prototype.handleDrop = function(e) {
 	e.preventDefault();
 
-	var passedMoney = e.dataTransfer.getData("text");
+	var droppedMoney = e.dataTransfer.getData("text");
 	var insertedMoneySpan = document.getElementById("insertedMoney");
 	var currentInsertedMoney = util.getNumberOnly(insertedMoneySpan.textContent);
 
-	insertedMoneySpan.textContent = `${currentInsertedMoney + Number(passedMoney)}원`;
+	insertedMoneySpan.textContent = `${currentInsertedMoney + Number(droppedMoney)}원`;
 }

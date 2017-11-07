@@ -69,6 +69,8 @@ function User(eventTrigger, {name = "김동빈", money = 10000} = {}) {
 
 User.prototype.attachTrigger = function() {
 	this.eventTrigger.on("DRAG_START", this.handleDragStart.bind(this));
+	this.eventTrigger.on("DROP_ON_TARGET", this.handleDrop.bind(this));
+	this.eventTrigger.on("DROP_OFF_TARGET", this.handleDrop.bind(this));
 };
 
 User.prototype.init = function() {
@@ -101,4 +103,12 @@ User.prototype.addListener = function() {
 
 User.prototype.handleDragStart = function(e) {
 	e.dataTransfer.setData("text", e.target.dataset.moneyValue);
+};
+
+User.prototype.handleDrop = function(e) {
+	var droppedMoney = e.dataTransfer.getData("text");
+	var myMoneySpan = document.getElementById("myMoney");
+	var currentMyMoney = util.getNumberOnly(myMoneySpan.textContent);
+
+	myMoneySpan.textContent = `${currentMyMoney - Number(droppedMoney)}원`;
 };
