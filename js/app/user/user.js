@@ -1,4 +1,4 @@
-function User(eventTrigger, {name = "김동빈", money = 10000} = {}) {
+function User(eventTrigger, {name = "김동빈", myMoney = 10000} = {}) {
 	var userDOMBuildFuncs = {
 		getCoinButton(value) {
 			var button = document.createElement("button");
@@ -35,25 +35,31 @@ function User(eventTrigger, {name = "김동빈", money = 10000} = {}) {
 			return button;
 		},
 
-		getMyMoneyContainer() {
+		getMyMoneyTextContainer() {
 			var p = document.createElement("p");
-			var span = document.createElement("span");
 
 			p.className = "my-money-container";
 			p.textContent = "내 돈: ";
-			span.className = "my-money";
-			span.id = "myMoney";
-			span.textContent = `${money}원`;
-
-			p.appendChild(span);
 
 			return p;
+		},
+
+		getMyMoneySpan() {
+			var span = document.createElement("span");
+
+			span.className = "my-money";
+			span.id = "myMoney";
+			span.textContent = `${myMoney}원`;
+
+			return span;
 		}
 	};
 
 	this.eventTrigger = eventTrigger;
 	this.name = name;
-	this.money = money;
+	this.myMoney = myMoney;
+	this.putMoney = 0;
+	this.lostMoney = 0;
 	this.purchasedProductList = [];
 
 	this.moneyButtonList = {
@@ -62,21 +68,24 @@ function User(eventTrigger, {name = "김동빈", money = 10000} = {}) {
 		"fiveHundredCoinButton": userDOMBuildFuncs.getCoinButton("fivehundred"),
 		"oneThousandBillButton": userDOMBuildFuncs.getBillButton("onethousand"),
 	};
-	this.myMoneyContainer = userDOMBuildFuncs.getMyMoneyContainer();
+	this.myMoneyTextContainer = userDOMBuildFuncs.getMyMoneyTextContainer();
+	this.myMoneySpan = userDOMBuildFuncs.getMyMoneySpan();
+	this.myMoneyTextContainer.appendChild(this.myMoneySpan);
 
 	this.attachTrigger();
 }
 
 User.prototype.attachTrigger = function() {
-	this.eventTrigger.on("DRAG_START", this.handleDragStart.bind(this));
-	this.eventTrigger.on("DROP_ON_TARGET", this.handleDrop.bind(this));
-	this.eventTrigger.on("DROP_OFF_TARGET", this.handleDrop.bind(this));
+	this.eventTrigger.on("DRAG_STARTED", this.handleDragStart.bind(this));
+	this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDropOnTarget.bind(this));
+	this.eventTrigger.on("DROPPED_OFF_TARGET", this.handleDropOffTarget.bind(this));
+	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
 };
 
 User.prototype.init = function() {
 	var userWrapper = dom.getWrapperAround("user-wrapper");
 	var moneyListWrapper = dom.getWrapperAround("money-list-wrapper");
-	var myMoneyContainerWrapper = dom.getWrapperAround("my-money-container-wrapper");
+	var myMoneyTextContainerWrapper = dom.getWrapperAround("my-money-text-container-wrapper");
 
 	for (var moneyButton in this.moneyButtonList) {
 		var moneyWrapper = dom.getWrapperAround("money-wrapper");
@@ -85,10 +94,10 @@ User.prototype.init = function() {
 		moneyListWrapper.appendChild(moneyWrapper);
 	}
 
-	myMoneyContainerWrapper.appendChild(this.myMoneyContainer);
+	myMoneyTextContainerWrapper.appendChild(this.myMoneyTextContainer);
 
 	userWrapper.appendChild(moneyListWrapper);
-	userWrapper.appendChild(myMoneyContainerWrapper);
+	userWrapper.appendChild(myMoneyTextContainerWrapper);
 
 	dom.root.appendChild(userWrapper);
 
@@ -105,10 +114,27 @@ User.prototype.handleDragStart = function(e) {
 	e.dataTransfer.setData("text", e.target.dataset.moneyValue);
 };
 
-User.prototype.handleDrop = function(e) {
-	var droppedMoney = e.dataTransfer.getData("text");
-	var myMoneySpan = document.getElementById("myMoney");
-	var currentMyMoney = util.getNumberOnly(myMoneySpan.textContent);
+User.prototype.handleDropOnTarget = function(e) {
+	var droppedMoney = Number(e.dataTransfer.getData("text"));
 
-	myMoneySpan.textContent = `${currentMyMoney - Number(droppedMoney)}원`;
+	this.putMoney += droppedMoney;
+	this.myMoney -= droppedMoney;
+
+	this.myMoneySpan.textContent = `${this.myMoney}원`;
 };
+
+User.prototype.handleDropOffTarget = function(e) {
+	var droppedMoney = Number(e.dataTransfer.getData("text"));
+
+	this.lostMoney += droppedMoney;
+	this.myMoney -= droppedMoney;
+
+	this.myMoneySpan.textContent = `${this.myMoney}원`;
+};
+
+User.prototype.handleMoneyBackButtonClick = function(e) {
+	this.myMoney += this.putMoney;
+	this.putMoney = 0;
+
+	this.myMoneySpan.textContent = `${this.myMoney}원`;
+}

@@ -23,19 +23,23 @@ function MoneyInOut(eventTrigger, {moneyLimit = 3000, billLimit = 2} = {}) {
 			return button;
 		},
 
-		getInsertedMoneyContainer() {
+		getInsertedMoneyTextContainer() {
 			var p = document.createElement("p");
-			var span = document.createElement("span");
 
 			p.className = "inserted-money-container";
 			p.textContent = "투입금액: ";
+
+			return p;
+		},
+
+		getInsertedMoneySpan() {
+			var span = document.createElement("span");
+
 			span.className = "inserted-money";
 			span.id = "insertedMoney";
 			span.textContent = "0원";
 
-			p.appendChild(span);
-
-			return p;
+			return span;
 		}
 	};
 
@@ -46,27 +50,30 @@ function MoneyInOut(eventTrigger, {moneyLimit = 3000, billLimit = 2} = {}) {
 
 	this.moneyPutArea = moneyInOutDOMBuildFuncs.getMoneyPutArea();
 	this.moneyBackButton = moneyInOutDOMBuildFuncs.getMoneyBackButton();
-	this.insertedMoneyContainer = moneyInOutDOMBuildFuncs.getInsertedMoneyContainer();
+	this.insertedMoneyTextContainer = moneyInOutDOMBuildFuncs.getInsertedMoneyTextContainer();
+	this.insertedMoneySpan = moneyInOutDOMBuildFuncs.getInsertedMoneySpan();
+	this.insertedMoneyTextContainer.appendChild(this.insertedMoneySpan);
 
 	this.attachTrigger();
 }
 
 MoneyInOut.prototype.attachTrigger = function() {
-	this.eventTrigger.on("DRAG_OVER", this.handleDragOver.bind(this));
-	this.eventTrigger.on("DROP_ON_TARGET", this.handleDrop.bind(this));
+	// this.eventTrigger.on("DRAG_OVER", this.handleDragOver.bind(this));
+	this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDrop.bind(this));
+	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
 };
 
 MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 	var moneyInOutWrapper = dom.getWrapperAround("money-in-out-wrapper");
 	var moneyPutAreaWrapper = this.moneyPutArea;
-	var insertedMoneyContainerWrapper = dom.getWrapperAround("inserted-money-container-wrapper");
+	var insertedMoneyTextContainerWrapper = dom.getWrapperAround("inserted-money-text-container-wrapper");
 	var moneyBackButtonWrapper = dom.getWrapperAround("money-back-button-wrapper");
 
 	moneyBackButtonWrapper.appendChild(this.moneyBackButton);
-	insertedMoneyContainerWrapper.appendChild(this.insertedMoneyContainer);
+	insertedMoneyTextContainerWrapper.appendChild(this.insertedMoneyTextContainer);
 
 	moneyInOutWrapper.appendChild(moneyPutAreaWrapper);
-	moneyInOutWrapper.appendChild(insertedMoneyContainerWrapper);
+	moneyInOutWrapper.appendChild(insertedMoneyTextContainerWrapper);
 	moneyInOutWrapper.appendChild(moneyBackButtonWrapper);
 
 	vendingMachineWrapper.appendChild(moneyInOutWrapper);
@@ -77,18 +84,23 @@ MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 MoneyInOut.prototype.addListener = function() {
 	// this.moneyPutArea.addEventListener("dragover", this.eventTrigger.handleDragOver.bind(this.eventTrigger));
 	// this.moneyPutArea.addEventListener("drop", this.eventTrigger.handleDrop.bind(this.eventTrigger));
+	this.moneyBackButton.addEventListener("click", this.eventTrigger.handleMoneyBackButtonClick.bind(this.eventTrigger));
 };
 
-MoneyInOut.prototype.handleDragOver = function(e) {
-	e.preventDefault();
-};
+// MoneyInOut.prototype.handleDragOver = function(e) {
+// 	e.preventDefault();
+// };
 
 MoneyInOut.prototype.handleDrop = function(e) {
 	e.preventDefault();
 
-	var droppedMoney = e.dataTransfer.getData("text");
-	var insertedMoneySpan = document.getElementById("insertedMoney");
-	var currentInsertedMoney = util.getNumberOnly(insertedMoneySpan.textContent);
+	var droppedMoney = Number(e.dataTransfer.getData("text"));
 
-	insertedMoneySpan.textContent = `${currentInsertedMoney + Number(droppedMoney)}원`;
-}
+	this.insertedMoney += droppedMoney;
+	this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
+};
+
+MoneyInOut.prototype.handleMoneyBackButtonClick = function(e) {
+	this.insertedMoney = 0;
+	this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
+};
