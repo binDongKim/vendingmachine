@@ -81,6 +81,7 @@ User.prototype.attachTrigger = function() {
 	this.eventTrigger.on("MONEY_ACCEPTED", this.moneyAccepted.bind(this));
 	this.eventTrigger.on("DROPPED_OFF_TARGET", this.handleDropOffTarget.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
+	this.eventTrigger.on("PURCHASE", this.purchase.bind(this));
 };
 
 User.prototype.init = function() {
@@ -147,4 +148,11 @@ User.prototype.handleMoneyBackButtonClick = function(e) {
 	this.putMoney = 0;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
-}
+};
+
+User.prototype.purchase = function(e) {
+	var price = e.currentTarget.dataset.price;
+
+	this.putMoney -= Number(price);
+	//TODO: purchasedProductList에 추가하기.
+};

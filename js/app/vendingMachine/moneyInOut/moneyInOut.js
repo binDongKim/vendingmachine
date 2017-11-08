@@ -62,6 +62,8 @@ MoneyInOut.prototype.attachTrigger = function() {
 	// this.eventTrigger.on("DRAG_OVER", this.handleDragOver.bind(this));
 	this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDrop.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
+	this.eventTrigger.on("PRODUCT_CLICKED", this.handleProductClick.bind(this));
+	this.eventTrigger.on("PURCHASE", this.deductInsertedMoney.bind(this));
 };
 
 MoneyInOut.prototype.init = function(vendingMachineWrapper) {
@@ -133,3 +135,26 @@ MoneyInOut.prototype.handleMoneyBackButtonClick = function(e) {
 	this.currentBillCount = 0;
 	this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
 };
+
+MoneyInOut.prototype.handleProductClick = function(e) {
+	var price = e.currentTarget.dataset.price;
+	var isMoneyEnough = this.isMoneyEnough(price);
+
+	if (isMoneyEnough) {
+		this.eventTrigger.purchase(e);
+	} else {
+		this.eventTrigger.warnShortOfMoney(e);
+	}
+};
+
+MoneyInOut.prototype.isMoneyEnough = function(price) {
+	return this.insertedMoney >= Number(price);
+};
+
+MoneyInOut.prototype.deductInsertedMoney = function(e) {
+	var price = e.currentTarget.dataset.price;
+
+	this.insertedMoney -= Number(price);
+	this.currentBillCount = 0;
+	this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
+}

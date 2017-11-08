@@ -25,6 +25,23 @@ p {
 	text-align: center;
 }
 
+.product-figure {
+	cursor: pointer;
+	border: 1px dotted black;
+}
+
+.soldout {
+
+}
+
+.un-buyable {
+
+}
+
+.buyable {
+
+}
+
 .money-in-out-wrapper {
 	border-top: 1px solid black;
 	display: flex;

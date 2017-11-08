@@ -29,3 +29,20 @@ EventTrigger.prototype.moneyAccepted = function(e) {
 EventTrigger.prototype.moneyRefused = function(e) {
 	this.trigger("MONEY_REFUSED", [e]);
 };
+
+EventTrigger.prototype.handleProductClick = function(e) {
+	this.trigger("PRODUCT_CLICKED", [e]);
+};
+
+EventTrigger.prototype.purchase = function(e) {
+	this.trigger("PURCHASE", [e]);
+};
+
+EventTrigger.prototype.warnShortOfMoney = function(e) {
+	this.trigger("WARN_SHORT_OF_MONEY", [e]);
+};
+
+// EventTrigger.prototype.purchased = function() {
+// 	console.log("test");
+// 	this.trigger("PURCHASED");
+// };

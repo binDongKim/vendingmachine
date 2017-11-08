@@ -1,4 +1,4 @@
-function Product({productId, name, enName, price}) {
+function Product(eventTrigger, {productId, name, enName, price}) {
 	var productDOMBuildFuncs = {
 		getProductFigure(id, name, price) {
 			var figure = document.createElement("figure");
@@ -10,6 +10,9 @@ function Product({productId, name, enName, price}) {
 			image.height = 64;
 			image.alt = name;
 			figcaption.textContent = `${price}원`;
+			figure.className = "product-figure";
+			figure.id = id;
+			figure.dataset.price = price;
 
 			figure.appendChild(image);
 			figure.appendChild(figcaption);
@@ -21,6 +24,7 @@ function Product({productId, name, enName, price}) {
 	var MIN_AMOUNT = 1;
 	var MAX_AMOUNT = 3;
 
+	this.eventTrigger = eventTrigger;
 	this.productId = productId;
 	this.name = name;
 	this.enName = enName;
@@ -36,4 +40,19 @@ Product.prototype.init = function(displayWrapper) {
 
 	figureWrapper.appendChild(this.productFigure);
 	displayWrapper.appendChild(figureWrapper);
+
+	this.addListener();
+};
+
+Product.prototype.addListener = function() {
+	this.productFigure.addEventListener("click", this.eventTrigger.handleProductClick.bind(this.eventTrigger));
+};
+
+Product.prototype.purchase = function() {
+	this.amount--;
+	// this.eventTrigger.purchased();
+};
+
+Product.prototype.warnShortOfMoney = function(e) {
+
 };
