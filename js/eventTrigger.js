@@ -38,6 +38,10 @@ EventTrigger.prototype.handleProductClick = function(e) {
 	this.trigger("PRODUCT_CLICKED", [e]);
 };
 
+EventTrigger.prototype.checkUserMoney = function() {
+	this.trigger("CHECK_USER_MONEY");
+};
+
 EventTrigger.prototype.purchase = function(product) {
 	this.trigger("PURCHASE", [product]);
 };

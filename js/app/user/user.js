@@ -81,6 +81,7 @@ User.prototype.attachTrigger = function() {
 	// this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDropOnTarget.bind(this));
 	this.eventTrigger.on("MONEY_ACCEPTED", this.moneyAccepted.bind(this));
 	this.eventTrigger.on("DROPPED_OFF_TARGET", this.handleDropOffTarget.bind(this));
+	this.eventTrigger.on("CHECK_USER_MONEY", this.checkUserMoney.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
 	this.eventTrigger.on("PURCHASE", this.purchase.bind(this));
 };
@@ -108,8 +109,8 @@ User.prototype.init = function() {
 };
 
 User.prototype.addListener = function() {
-	for (var moneyButton in this.moneyButtonList) {
-		this.moneyButtonList[moneyButton].addEventListener("dragstart", this.eventTrigger.handleDragStart.bind(this.eventTrigger));
+	for (var moneyButtonKey in this.moneyButtonList) {
+		this.moneyButtonList[moneyButtonKey].addEventListener("dragstart", this.eventTrigger.handleDragStart.bind(this.eventTrigger));
 	}
 };
 
@@ -132,6 +133,8 @@ User.prototype.moneyAccepted = function(droppedMoney) {
 	this.myMoney -= droppedMoney;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
+
+	this.eventTrigger.checkUserMoney();
 }
 
 User.prototype.handleDropOffTarget = function(e) {
@@ -141,6 +144,8 @@ User.prototype.handleDropOffTarget = function(e) {
 	this.myMoney -= lostMoney;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
+
+	this.eventTrigger.checkUserMoney();
 };
 
 User.prototype.handleMoneyBackButtonClick = function(totalInsertedMoney) {
@@ -148,6 +153,17 @@ User.prototype.handleMoneyBackButtonClick = function(totalInsertedMoney) {
 	// this.putMoney = 0;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
+};
+
+User.prototype.checkUserMoney = function() {
+
+	for (var moneyButtonKey in this.moneyButtonList) {
+		var moneyButton = this.moneyButtonList[moneyButtonKey];
+
+		if (this.myMoney < Number(moneyButton.dataset.moneyValue)) {
+			moneyButton.setAttribute("draggable", false);
+		}
+	}
 };
 
 User.prototype.purchase = function(product) {
