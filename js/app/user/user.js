@@ -38,7 +38,7 @@ function User(eventTrigger, {name = "김동빈", myMoney = 10000} = {}) {
 		getMyMoneyTextContainer() {
 			var p = document.createElement("p");
 
-			p.className = "my-money-container";
+			p.className = "my-money-text-container";
 			p.textContent = "내 돈: ";
 
 			return p;
@@ -58,8 +58,9 @@ function User(eventTrigger, {name = "김동빈", myMoney = 10000} = {}) {
 	this.eventTrigger = eventTrigger;
 	this.name = name;
 	this.myMoney = myMoney;
-	this.putMoney = 0;
-	this.lostMoney = 0;
+	// this.takeoutMoney = 0;
+	// this.putMoney = 0;
+	// this.lostMoney = 0;
 	this.purchasedProductList = [];
 
 	this.moneyButtonList = {
@@ -113,6 +114,7 @@ User.prototype.addListener = function() {
 };
 
 User.prototype.handleDragStart = function(e) {
+	// this.takeoutMoney = e.target.dataset.moneyValue;
 	e.dataTransfer.setData("text", e.target.dataset.moneyValue);
 };
 
@@ -125,34 +127,32 @@ User.prototype.handleDragStart = function(e) {
 // 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 // };
 
-User.prototype.moneyAccepted = function(e) {
-	var droppedMoney = Number(e.dataTransfer.getData("text"));
-
-	this.putMoney += droppedMoney;
+User.prototype.moneyAccepted = function(droppedMoney) {
+	// this.putMoney += droppedMoney;
 	this.myMoney -= droppedMoney;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 }
 
 User.prototype.handleDropOffTarget = function(e) {
-	var droppedMoney = Number(e.dataTransfer.getData("text"));
+	var lostMoney = Number(e.dataTransfer.getData("text"));
 
-	this.lostMoney += droppedMoney;
-	this.myMoney -= droppedMoney;
+	this.lostMoney += lostMoney;
+	this.myMoney -= lostMoney;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 };
 
-User.prototype.handleMoneyBackButtonClick = function(e) {
-	this.myMoney += this.putMoney;
-	this.putMoney = 0;
+User.prototype.handleMoneyBackButtonClick = function(totalInsertedMoney) {
+	this.myMoney += totalInsertedMoney;
+	// this.putMoney = 0;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 };
 
 User.prototype.purchase = function(e) {
-	var price = e.currentTarget.dataset.price;
-
-	this.putMoney -= Number(price);
+	// var price = e.currentTarget.dataset.price;
+	//
+	// this.putMoney -= Number(price);
 	//TODO: purchasedProductList에 추가하기.
 };

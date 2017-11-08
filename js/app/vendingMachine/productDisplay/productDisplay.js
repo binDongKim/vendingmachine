@@ -23,6 +23,7 @@ function ProductDisplay(eventTrigger) {
 }
 
 ProductDisplay.prototype.attachTrigger = function() {
+	this.eventTrigger.on("MONEY_ACCEPTED", this.showPurchaseableState.bind(this));
 	this.eventTrigger.on("PURCHASE", this.purchase.bind(this));
 	this.eventTrigger.on("WARN_SHORT_OF_MONEY", this.warnShortOfMoney.bind(this));
 };
@@ -37,6 +38,10 @@ ProductDisplay.prototype.init = function(vendingMachineWrapper) {
 	});
 
 	vendingMachineWrapper.appendChild(productDisplayWrapper);
+};
+
+ProductDisplay.prototype.showPurchaseableState = function(e) {
+	
 };
 
 ProductDisplay.prototype.purchase = function(e) {

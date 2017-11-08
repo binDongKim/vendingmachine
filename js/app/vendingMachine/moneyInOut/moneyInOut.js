@@ -23,20 +23,20 @@ function MoneyInOut(eventTrigger, {moneyLimit = 3000, billLimit = 2} = {}) {
 			return button;
 		},
 
-		getInsertedMoneyTextContainer() {
+		getTotalInsertedMoneyTextContainer() {
 			var p = document.createElement("p");
 
-			p.className = "inserted-money-container";
+			p.className = "total-inserted-money-container";
 			p.textContent = "투입금액: ";
 
 			return p;
 		},
 
-		getInsertedMoneySpan() {
+		getTotalInsertedMoneySpan() {
 			var span = document.createElement("span");
 
-			span.className = "inserted-money";
-			span.id = "insertedMoney";
+			span.className = "total-inserted-money";
+			span.id = "totalInsertedMoney";
 			span.textContent = "0원";
 
 			return span;
@@ -44,16 +44,16 @@ function MoneyInOut(eventTrigger, {moneyLimit = 3000, billLimit = 2} = {}) {
 	};
 
 	this.eventTrigger = eventTrigger;
-	this.insertedMoney = 0;
+	this.totalInsertedMoney = 0;
 	this.moneyLimit = moneyLimit;
 	this.currentBillCount = 0;
 	this.billLimit = billLimit;
 
 	this.moneyPutArea = moneyInOutDOMBuildFuncs.getMoneyPutArea();
 	this.moneyBackButton = moneyInOutDOMBuildFuncs.getMoneyBackButton();
-	this.insertedMoneyTextContainer = moneyInOutDOMBuildFuncs.getInsertedMoneyTextContainer();
-	this.insertedMoneySpan = moneyInOutDOMBuildFuncs.getInsertedMoneySpan();
-	this.insertedMoneyTextContainer.appendChild(this.insertedMoneySpan);
+	this.totalInsertedMoneyTextContainer = moneyInOutDOMBuildFuncs.getTotalInsertedMoneyTextContainer();
+	this.totalInsertedMoneySpan = moneyInOutDOMBuildFuncs.getTotalInsertedMoneySpan();
+	this.totalInsertedMoneyTextContainer.appendChild(this.totalInsertedMoneySpan);
 
 	this.attachTrigger();
 }
@@ -63,20 +63,20 @@ MoneyInOut.prototype.attachTrigger = function() {
 	this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDrop.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
 	this.eventTrigger.on("PRODUCT_CLICKED", this.handleProductClick.bind(this));
-	this.eventTrigger.on("PURCHASE", this.deductInsertedMoney.bind(this));
+	this.eventTrigger.on("PURCHASE", this.deductTotalInsertedMoney.bind(this));
 };
 
 MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 	var moneyInOutWrapper = dom.getWrapperAround("money-in-out-wrapper");
 	var moneyPutAreaWrapper = this.moneyPutArea;
-	var insertedMoneyTextContainerWrapper = dom.getWrapperAround("inserted-money-text-container-wrapper");
+	var totalInsertedMoneyTextContainerWrapper = dom.getWrapperAround("total-inserted-money-text-container-wrapper");
 	var moneyBackButtonWrapper = dom.getWrapperAround("money-back-button-wrapper");
 
 	moneyBackButtonWrapper.appendChild(this.moneyBackButton);
-	insertedMoneyTextContainerWrapper.appendChild(this.insertedMoneyTextContainer);
+	totalInsertedMoneyTextContainerWrapper.appendChild(this.totalInsertedMoneyTextContainer);
 
 	moneyInOutWrapper.appendChild(moneyPutAreaWrapper);
-	moneyInOutWrapper.appendChild(insertedMoneyTextContainerWrapper);
+	moneyInOutWrapper.appendChild(totalInsertedMoneyTextContainerWrapper);
 	moneyInOutWrapper.appendChild(moneyBackButtonWrapper);
 
 	vendingMachineWrapper.appendChild(moneyInOutWrapper);
@@ -85,9 +85,14 @@ MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 };
 
 MoneyInOut.prototype.addListener = function() {
+	var that = this;
 	// this.moneyPutArea.addEventListener("dragover", this.eventTrigger.handleDragOver.bind(this.eventTrigger));
 	// this.moneyPutArea.addEventListener("drop", this.eventTrigger.handleDrop.bind(this.eventTrigger));
-	this.moneyBackButton.addEventListener("click", this.eventTrigger.handleMoneyBackButtonClick.bind(this.eventTrigger));
+	this.moneyBackButton.addEventListener("click", function() {
+		var totalInsertedMoney = that.totalInsertedMoney;
+
+		that.eventTrigger.handleMoneyBackButtonClick.call(that.eventTrigger, totalInsertedMoney);
+	});
 };
 
 // MoneyInOut.prototype.handleDragOver = function(e) {
@@ -95,7 +100,7 @@ MoneyInOut.prototype.addListener = function() {
 // };
 
 MoneyInOut.prototype.checkMaxMoneyLimit = function(money) {
-	return this.insertedMoney + money <= this.moneyLimit;
+	return this.totalInsertedMoney + money <= this.moneyLimit;
 };
 
 MoneyInOut.prototype.checkMaxBillLimit = function(money) {
@@ -121,19 +126,19 @@ MoneyInOut.prototype.handleDrop = function(e) {
 			this.currentBillCount++;
 		}
 
-		this.insertedMoney += droppedMoney;
-		this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
-		this.eventTrigger.moneyAccepted(e);
+		this.totalInsertedMoney += droppedMoney;
+		this.totalInsertedMoneySpan.textContent = `${this.totalInsertedMoney}원`;
+		this.eventTrigger.moneyAccepted(droppedMoney, this.totalInsertedMoney);
 	} else {
 		this.eventTrigger.moneyRefused(e);
 		//TODO: Limit도달 경고 띄우기.
 	}
 };
 
-MoneyInOut.prototype.handleMoneyBackButtonClick = function(e) {
-	this.insertedMoney = 0;
+MoneyInOut.prototype.handleMoneyBackButtonClick = function() {
+	this.totalInsertedMoney = 0;
 	this.currentBillCount = 0;
-	this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
+	this.totalInsertedMoneySpan.textContent = `${this.totalInsertedMoney}원`;
 };
 
 MoneyInOut.prototype.handleProductClick = function(e) {
@@ -148,13 +153,13 @@ MoneyInOut.prototype.handleProductClick = function(e) {
 };
 
 MoneyInOut.prototype.isMoneyEnough = function(price) {
-	return this.insertedMoney >= Number(price);
+	return this.totalInsertedMoney >= Number(price);
 };
 
-MoneyInOut.prototype.deductInsertedMoney = function(e) {
+MoneyInOut.prototype.deductTotalInsertedMoney = function(e) {
 	var price = e.currentTarget.dataset.price;
 
-	this.insertedMoney -= Number(price);
+	this.totalInsertedMoney -= Number(price);
 	this.currentBillCount = 0;
-	this.insertedMoneySpan.textContent = `${this.insertedMoney}원`;
+	this.totalInsertedMoneySpan.textContent = `${this.totalInsertedMoney}원`;
 }

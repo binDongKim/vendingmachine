@@ -18,6 +18,16 @@ function Product(eventTrigger, {productId, name, enName, price}) {
 			figure.appendChild(figcaption);
 
 			return figure;
+		},
+
+		getPurchaseableStateTextContainer(id) {
+			var p = document.createElement("p");
+
+			p.className = "purchaseable-state-text-container";
+			p.id = id;
+			p.textContent = "";
+
+			return p;
 		}
 	};
 
@@ -33,12 +43,14 @@ function Product(eventTrigger, {productId, name, enName, price}) {
 	this.amount = Math.floor(MIN_AMOUNT + MAX_AMOUNT * Math.random());
 
 	this.productFigure = productDOMBuildFuncs.getProductFigure(this.productId, this.enName, this.price);
+	this.purchaseableStateTextContainer = productDOMBuildFuncs.getPurchaseableStateTextContainer(this.productId);
 }
 
 Product.prototype.init = function(displayWrapper) {
 	var figureWrapper = dom.getWrapperAround("product-figure-wrapper");
 
 	figureWrapper.appendChild(this.productFigure);
+	figureWrapper.appendChild(this.purchaseableStateTextContainer);
 	displayWrapper.appendChild(figureWrapper);
 
 	this.addListener();
@@ -46,13 +58,4 @@ Product.prototype.init = function(displayWrapper) {
 
 Product.prototype.addListener = function() {
 	this.productFigure.addEventListener("click", this.eventTrigger.handleProductClick.bind(this.eventTrigger));
-};
-
-Product.prototype.purchase = function() {
-	this.amount--;
-	// this.eventTrigger.purchased();
-};
-
-Product.prototype.warnShortOfMoney = function(e) {
-
 };
