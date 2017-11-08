@@ -1,4 +1,4 @@
-function Product(eventTrigger, {productId, name, enName, price}) {
+function Product(eventTrigger, {id, name, enName, price}) {
 	var productDOMBuildFuncs = {
 		getProductFigure(id, name, price) {
 			var figure = document.createElement("figure");
@@ -20,10 +20,10 @@ function Product(eventTrigger, {productId, name, enName, price}) {
 			return figure;
 		},
 
-		getPurchaseableStateTextContainer(id) {
+		getProductStateTextContainer(id) {
 			var p = document.createElement("p");
 
-			p.className = "purchaseable-state-text-container";
+			p.className = "product-state-text-container";
 			p.id = id;
 			p.textContent = "";
 
@@ -35,22 +35,22 @@ function Product(eventTrigger, {productId, name, enName, price}) {
 	var MAX_AMOUNT = 3;
 
 	this.eventTrigger = eventTrigger;
-	this.productId = productId;
+	this.id = id;
 	this.name = name;
 	this.enName = enName;
 	this.price = price;
 	// amount(재고) 랜덤.
 	this.amount = Math.floor(MIN_AMOUNT + MAX_AMOUNT * Math.random());
 
-	this.productFigure = productDOMBuildFuncs.getProductFigure(this.productId, this.enName, this.price);
-	this.purchaseableStateTextContainer = productDOMBuildFuncs.getPurchaseableStateTextContainer(this.productId);
+	this.productFigure = productDOMBuildFuncs.getProductFigure(this.id, this.enName, this.price);
+	this.productStateTextContainer = productDOMBuildFuncs.getProductStateTextContainer(this.id);
 }
 
 Product.prototype.init = function(displayWrapper) {
 	var figureWrapper = dom.getWrapperAround("product-figure-wrapper");
 
 	figureWrapper.appendChild(this.productFigure);
-	figureWrapper.appendChild(this.purchaseableStateTextContainer);
+	figureWrapper.appendChild(this.productStateTextContainer);
 	displayWrapper.appendChild(figureWrapper);
 
 	this.addListener();

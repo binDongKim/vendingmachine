@@ -38,15 +38,18 @@ EventTrigger.prototype.handleProductClick = function(e) {
 	this.trigger("PRODUCT_CLICKED", [e]);
 };
 
-EventTrigger.prototype.purchase = function(e) {
-	this.trigger("PURCHASE", [e]);
+EventTrigger.prototype.purchase = function(product) {
+	this.trigger("PURCHASE", [product]);
 };
 
-EventTrigger.prototype.warnShortOfMoney = function(e) {
-	this.trigger("WARN_SHORT_OF_MONEY", [e]);
+EventTrigger.prototype.warnShortOfMoney = function(product) {
+	this.trigger("WARN_SHORT_OF_MONEY", [product]);
 };
 
-// EventTrigger.prototype.purchased = function() {
-// 	console.log("test");
-// 	this.trigger("PURCHASED");
-// };
+EventTrigger.prototype.warnSoldOut = function(product) {
+	this.trigger("WARN_SOLD_OUT", [product]);
+};
+
+EventTrigger.prototype.checkEnoughMoney = function(product) {
+	this.trigger("CHECK_ENOUGH_MONEY", [product]);
+}

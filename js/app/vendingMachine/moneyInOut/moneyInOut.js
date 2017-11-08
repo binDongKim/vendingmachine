@@ -62,7 +62,7 @@ MoneyInOut.prototype.attachTrigger = function() {
 	// this.eventTrigger.on("DRAG_OVER", this.handleDragOver.bind(this));
 	this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDrop.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
-	this.eventTrigger.on("PRODUCT_CLICKED", this.handleProductClick.bind(this));
+	this.eventTrigger.on("CHECK_ENOUGH_MONEY", this.checkEnoughMoney.bind(this));
 	this.eventTrigger.on("PURCHASE", this.deductTotalInsertedMoney.bind(this));
 };
 
@@ -145,14 +145,14 @@ MoneyInOut.prototype.handleMoneyBackButtonClick = function() {
 	this.eventTrigger.totalInsertedMoneyChanged(this.totalInsertedMoney);
 };
 
-MoneyInOut.prototype.handleProductClick = function(e) {
-	var price = e.currentTarget.dataset.price;
+MoneyInOut.prototype.checkEnoughMoney = function(product) {
+	var price = product.price;
 	var isMoneyEnough = this.isMoneyEnough(price);
 
 	if (isMoneyEnough) {
-		this.eventTrigger.purchase(e);
+		this.eventTrigger.purchase(product);
 	} else {
-		this.eventTrigger.warnShortOfMoney(e);
+		this.eventTrigger.warnShortOfMoney(product);
 	}
 };
 
@@ -160,8 +160,8 @@ MoneyInOut.prototype.isMoneyEnough = function(price) {
 	return this.totalInsertedMoney >= Number(price);
 };
 
-MoneyInOut.prototype.deductTotalInsertedMoney = function(e) {
-	var price = e.currentTarget.dataset.price;
+MoneyInOut.prototype.deductTotalInsertedMoney = function(product) {
+	var price = product.price;
 
 	this.totalInsertedMoney -= Number(price);
 	this.currentBillCount = 0;

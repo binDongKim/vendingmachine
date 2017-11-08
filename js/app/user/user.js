@@ -150,7 +150,7 @@ User.prototype.handleMoneyBackButtonClick = function(totalInsertedMoney) {
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 };
 
-User.prototype.purchase = function(e) {
+User.prototype.purchase = function(product) {
 	// var price = e.currentTarget.dataset.price;
 	//
 	// this.putMoney -= Number(price);
