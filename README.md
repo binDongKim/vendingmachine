@@ -107,31 +107,37 @@
 
   - Product
     - 프로퍼티
-      - productId
+      - id
       - name
       - enName(영어이름)
       - price
       - amount
       - productFigure(상품을 담은 마크업요소)
+      - productStateTextContainer(상품의 상태(구매가능/돈부족/품절)를 표시할 마크업요소)
     - 메서드
       - onclick: 상품
-        - checkAmount
+        - checkSoldOut
         - purchase
-        - noticeSoldout
+        - showProductState
+        - warnShortOfMoney
 
 - MoneyInOut
   - 프로퍼티
     - moneyPutArea
     - moneyBackButton
-    - insertedMoneyContainer
-    - insertedMoney
+    - totalInsertedMoneySpan
+    - totalInsertedMoneyTextContainer
+    - totalInsertedMoney
     - MONEY_LIMIT
     - BILL_LIMIT
+    - currentBillCount
   - 메서드
     - ondrop: 투입구
       - checkLimit
       - acceptMoney
-      - returnMoney
+      - refuseMoney
+      - checkEnoughMoney
+      - deductTotalInsertedMoney
     - onclick: 반환 버튼
       - returnMoney
 
@@ -147,13 +153,15 @@
 
   - 프로퍼티
     - name
-    - money
+    - myMoney
     - purchasedProduct
     - moneyButtonList(50원, 100원, 500원, 1000원 버튼을 담은 요소들을 갖고있는 객체)
-    - myMoneyContainer(money를 담고있는 요소)
+    - myMoneyTextContainer(money를 담고있는 요소)
+    - myMoneySpan
   - 메서드
     - ondrag
       - takeoutMoney
+    - checkUserMoney
 
 *투입구가 아닌 영역에 ondrop이벤트 발생시 loseMoney 트리거*
 

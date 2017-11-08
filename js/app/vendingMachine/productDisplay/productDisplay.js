@@ -39,7 +39,6 @@ ProductDisplay.prototype.init = function(vendingMachineWrapper) {
 	});
 
 	vendingMachineWrapper.appendChild(productDisplayWrapper);
-	console.log(this.productList);
 };
 
 ProductDisplay.prototype.handleProductClick = function(e) {
@@ -66,7 +65,6 @@ ProductDisplay.prototype.showProductState = function(totalInsertedMoney) {
 			productObj.productStateTextContainer.textContent = "품절";
 		}
 	});
-	console.log(this.productList);
 };
 
 ProductDisplay.prototype.purchase = function(product) {
