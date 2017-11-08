@@ -128,7 +128,9 @@ MoneyInOut.prototype.handleDrop = function(e) {
 
 		this.totalInsertedMoney += droppedMoney;
 		this.totalInsertedMoneySpan.textContent = `${this.totalInsertedMoney}원`;
-		this.eventTrigger.moneyAccepted(droppedMoney, this.totalInsertedMoney);
+
+		this.eventTrigger.moneyAccepted(droppedMoney);
+		this.eventTrigger.totalInsertedMoneyChanged(this.totalInsertedMoney);
 	} else {
 		this.eventTrigger.moneyRefused(e);
 		//TODO: Limit도달 경고 띄우기.
@@ -139,6 +141,8 @@ MoneyInOut.prototype.handleMoneyBackButtonClick = function() {
 	this.totalInsertedMoney = 0;
 	this.currentBillCount = 0;
 	this.totalInsertedMoneySpan.textContent = `${this.totalInsertedMoney}원`;
+
+	this.eventTrigger.totalInsertedMoneyChanged(this.totalInsertedMoney);
 };
 
 MoneyInOut.prototype.handleProductClick = function(e) {
@@ -162,4 +166,6 @@ MoneyInOut.prototype.deductTotalInsertedMoney = function(e) {
 	this.totalInsertedMoney -= Number(price);
 	this.currentBillCount = 0;
 	this.totalInsertedMoneySpan.textContent = `${this.totalInsertedMoney}원`;
+
+	this.eventTrigger.totalInsertedMoneyChanged(this.totalInsertedMoney);
 }

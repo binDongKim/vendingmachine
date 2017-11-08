@@ -22,12 +22,16 @@ EventTrigger.prototype.handleMoneyBackButtonClick = function(totalInsertedMoney)
 	this.trigger("MONEY_BACK_BUTTON_CLICKED", [totalInsertedMoney]);
 };
 
-EventTrigger.prototype.moneyAccepted = function(droppedMoney, totalInsertedMoney) {
-	this.trigger("MONEY_ACCEPTED", [droppedMoney, totalInsertedMoney]);
+EventTrigger.prototype.moneyAccepted = function(droppedMoney) {
+	this.trigger("MONEY_ACCEPTED", [droppedMoney]);
 };
 
 EventTrigger.prototype.moneyRefused = function(e) {
 	this.trigger("MONEY_REFUSED", [e]);
+};
+
+EventTrigger.prototype.totalInsertedMoneyChanged = function(totalInsertedMoney) {
+	this.trigger("TOTAL_INSERTED_MONEY_CHANGED", [totalInsertedMoney]);
 };
 
 EventTrigger.prototype.handleProductClick = function(e) {

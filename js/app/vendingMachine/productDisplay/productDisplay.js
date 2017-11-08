@@ -23,7 +23,7 @@ function ProductDisplay(eventTrigger) {
 }
 
 ProductDisplay.prototype.attachTrigger = function() {
-	this.eventTrigger.on("MONEY_ACCEPTED", this.showPurchaseableState.bind(this));
+	this.eventTrigger.on("TOTAL_INSERTED_MONEY_CHANGED", this.showPurchaseableState.bind(this));
 	this.eventTrigger.on("PURCHASE", this.purchase.bind(this));
 	this.eventTrigger.on("WARN_SHORT_OF_MONEY", this.warnShortOfMoney.bind(this));
 };
@@ -40,8 +40,14 @@ ProductDisplay.prototype.init = function(vendingMachineWrapper) {
 	vendingMachineWrapper.appendChild(productDisplayWrapper);
 };
 
-ProductDisplay.prototype.showPurchaseableState = function(e) {
-	
+ProductDisplay.prototype.showPurchaseableState = function(totalInsertedMoney) {
+	this.productList.forEach(function(product) {
+		if (totalInsertedMoney >= product.price) {
+			product.purchaseableStateTextContainer.textContent = "구매가능";
+		} else {
+			product.purchaseableStateTextContainer.textContent = "돈 부족";
+		}
+	});
 };
 
 ProductDisplay.prototype.purchase = function(e) {
