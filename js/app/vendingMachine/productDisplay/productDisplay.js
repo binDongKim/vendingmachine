@@ -5,7 +5,7 @@ function ProductDisplay(eventTrigger) {
 		{ "id": "pr3", "name": "콜라", "enName": "coke", "price": "400" },
 		{ "id": "pr4", "name": "암바사", "enName": "ambasa", "price": "500" },
 		{ "id": "pr5", "name": "데자와", "enName": "desawa", "price": "600" },
-		{ "id": "pr6", "name": "코코팜", "enName": "cocopalm", "price": "700" },
+		{ "id": "pr6", "name": "주스", "enName": "juice", "price": "700" },
 		{ "id": "pr7", "name": "포카리", "enName": "pocari", "price": "800" },
 		{ "id": "pr8", "name": "밀키스", "enName": "milkis", "price": "900" },
 	];

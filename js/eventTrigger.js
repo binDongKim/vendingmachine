@@ -30,8 +30,8 @@ EventTrigger.prototype.moneyAccepted = function(droppedMoney) {
 	this.trigger("MONEY_ACCEPTED", [droppedMoney]);
 };
 
-EventTrigger.prototype.moneyRefused = function(e) {
-	this.trigger("MONEY_REFUSED", [e]);
+EventTrigger.prototype.moneyRefused = function(droppedMoney) {
+	this.trigger("MONEY_REFUSED", [droppedMoney]);
 };
 
 EventTrigger.prototype.totalInsertedMoneyChanged = function(totalInsertedMoney) {
@@ -40,10 +40,6 @@ EventTrigger.prototype.totalInsertedMoneyChanged = function(totalInsertedMoney) 
 
 EventTrigger.prototype.handleProductClick = function(e) {
 	this.trigger("PRODUCT_CLICKED", [e]);
-};
-
-EventTrigger.prototype.checkUserMoney = function() {
-	this.trigger("CHECK_USER_MONEY");
 };
 
 EventTrigger.prototype.purchase = function(product) {
@@ -60,4 +56,4 @@ EventTrigger.prototype.warnSoldOut = function(product) {
 
 EventTrigger.prototype.checkEnoughMoney = function(product) {
 	this.trigger("CHECK_ENOUGH_MONEY", [product]);
-}
+};

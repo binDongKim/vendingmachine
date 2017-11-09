@@ -81,9 +81,8 @@ User.prototype.attachTrigger = function() {
 	this.eventTrigger.on("MONEY_ACCEPTED", this.moneyAccepted.bind(this));
 	this.eventTrigger.on("DROPPED_ON_USER", this.handleDropOnUser.bind(this));
 	this.eventTrigger.on("DROPPED_OFF_TARGET", this.handleDropOffTarget.bind(this));
-	this.eventTrigger.on("CHECK_USER_MONEY", this.checkUserMoney.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
-	this.eventTrigger.on("PURCHASE", this.purchase.bind(this));
+	this.eventTrigger.on("PURCHASE", this.showPurchasedProduct.bind(this));
 };
 
 User.prototype.init = function() {
@@ -127,7 +126,7 @@ User.prototype.moneyAccepted = function(droppedMoney) {
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 
-	this.eventTrigger.checkUserMoney();
+	this.checkUserMoney();
 };
 
 User.prototype.handleDropOnUser = function(e) {
@@ -142,7 +141,7 @@ User.prototype.handleDropOffTarget = function(e) {
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 
-	this.eventTrigger.checkUserMoney();
+	this.checkUserMoney();
 };
 
 User.prototype.handleMoneyBackButtonClick = function(totalInsertedMoney) {
@@ -153,7 +152,6 @@ User.prototype.handleMoneyBackButtonClick = function(totalInsertedMoney) {
 };
 
 User.prototype.checkUserMoney = function() {
-
 	for (var moneyButtonKey in this.moneyButtonList) {
 		var moneyButton = this.moneyButtonList[moneyButtonKey];
 
@@ -163,7 +161,7 @@ User.prototype.checkUserMoney = function() {
 	}
 };
 
-User.prototype.purchase = function(product) {
+User.prototype.showPurchasedProduct = function(product) {
 	var purchasedProduct = this.purchasedProductMap.get(product.id);
 	var purchasedProductWrapper = dom.getWrapperAround("purchased-product-wrapper");
 	var purchasedProductListWrapper = document.querySelector(".purchased-product-list-wrapper");

@@ -132,8 +132,7 @@ MoneyInOut.prototype.handleDrop = function(e) {
 		this.eventTrigger.moneyAccepted(droppedMoney);
 		this.eventTrigger.totalInsertedMoneyChanged(this.totalInsertedMoney);
 	} else {
-		this.eventTrigger.moneyRefused(e);
-		//TODO: Limit도달 경고 띄우기.
+		this.eventTrigger.moneyRefused(droppedMoney);
 	}
 };
 

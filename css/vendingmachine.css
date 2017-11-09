@@ -112,3 +112,16 @@ p {
 	width: 45%;*/
 	border: 1px solid black;
 }
+
+.record-header-wrapper {
+	text-align: center;
+}
+
+.record-list {
+	max-height: 300px;
+	overflow-y: scroll;
+}
+
+.record-list-item {
+	line-height: 25px;
+}

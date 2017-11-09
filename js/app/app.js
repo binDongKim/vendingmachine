@@ -2,12 +2,13 @@ function App() {
 	this.eventTrigger = new EventTrigger();
 	this.vendingMachine = new VendingMachine(this.eventTrigger);
 	this.user = new User(this.eventTrigger);
-	// this.record = new Record();
+	this.record = new Record(this.eventTrigger);
 }
 
 App.prototype.init = function() {
 	this.vendingMachine.init();
 	this.user.init();
+	this.record.init();
 
 	this.addListener();
 };
