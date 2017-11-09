@@ -1,19 +1,24 @@
 function Product(eventTrigger, {id, name, enName, price}) {
 	var productDOMBuildFuncs = {
-		getProductFigure(id, name, price) {
+		getProductFigure(id, name, enName, price) {
 			var figure = document.createElement("figure");
 			var image = document.createElement("img");
 			var figcaption = document.createElement("figcaption");
+			var nameP = document.createElement("p");
+			var priceP = document.createElement("p");
 
-			image.src = `../images/product/${name}.png`;
+			image.src = `../images/product/${enName}.png`;
 			image.width = 64;
 			image.height = 64;
 			image.alt = name;
-			figcaption.textContent = `${price}원`;
+			nameP.textContent = name;
+			priceP.textContent = `${price}원`;
 			figure.className = "product-figure";
 			figure.dataset.productId = id;
 			figure.dataset.price = price;
 
+			figcaption.appendChild(nameP);
+			figcaption.appendChild(priceP);
 			figure.appendChild(image);
 			figure.appendChild(figcaption);
 
@@ -42,7 +47,7 @@ function Product(eventTrigger, {id, name, enName, price}) {
 	// amount(재고) 랜덤.
 	this.amount = Math.floor(MIN_AMOUNT + MAX_AMOUNT * Math.random());
 
-	this.productFigure = productDOMBuildFuncs.getProductFigure(this.id, this.enName, this.price);
+	this.productFigure = productDOMBuildFuncs.getProductFigure(this.id, this.name, this.enName, this.price);
 	this.productStateTextContainer = productDOMBuildFuncs.getProductStateTextContainer(this.id);
 }
 

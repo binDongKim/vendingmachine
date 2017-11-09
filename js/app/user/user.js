@@ -175,7 +175,7 @@ User.prototype.showPurchasedProduct = function(product) {
 	if (purchasedProduct) {
 		var purchasedProductFigure = document.querySelector(`[data-purchased-product-id=${purchasedProduct.product.id}]`);
 
-		purchasedProductFigure.querySelector("figcaption").textContent = `${++purchasedProduct.amount}개`;
+		purchasedProductFigure.querySelector(".purchased-product-amount").textContent = `${++purchasedProduct.amount}개`;
 	} else {
 		this.purchasedProductMap.set(product.id, {
 			"amount": 1,
@@ -185,14 +185,20 @@ User.prototype.showPurchasedProduct = function(product) {
 		var figure = document.createElement("figure");
 		var image = document.createElement("img");
 		var figcaption = document.createElement("figcaption");
+		var nameP = document.createElement("p");
+		var amountP = document.createElement("p");
 
 		image.src = `../images/product/${product.enName}.png`;
 		image.width = 64;
 		image.height = 64;
-		image.alt = product.enName;
-		figcaption.textContent = "1개";
+		image.alt = product.name;
+		nameP.textContent = product.name;
+		amountP.className = "purchased-product-amount";
+		amountP.textContent = "1개";
 		figure.dataset.purchasedProductId = product.id;
 
+		figcaption.appendChild(nameP);
+		figcaption.appendChild(amountP);
 		figure.appendChild(image);
 		figure.appendChild(figcaption);
 		purchasedProductWrapper.appendChild(figure);
