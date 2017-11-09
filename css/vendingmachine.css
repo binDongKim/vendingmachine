@@ -5,8 +5,6 @@ p {
 .container {
 	width: 100%;
 	position: relative;
-	/*display: flex;
-	justify-content: space-evenly;*/
 }
 
 .vending-machine-wrapper {
@@ -66,8 +64,6 @@ p {
 }
 
 .user-wrapper {
-	/*display: inline-block;
-	width: 45%;*/
 	width: 60%;
 	border: 1px solid black;
 	margin-bottom: 40px;
@@ -99,20 +95,16 @@ p {
 }
 
 .purchased-product-list-wrapper {
-	/*border-top: 1px solid black;*/
 	display: flex;
 	flex-wrap: wrap;
 }
 
 .purchased-product-wrapper {
-	/*width: 12%;*/
 	box-sizing: border-box;
 	text-align: center;
 }
 
 .record-wrapper {
-	/*display: inline-block;
-	width: 45%;*/
 	width: 30%;
 	position: absolute;
 	top: 0;
