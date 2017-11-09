@@ -111,7 +111,7 @@ User.prototype.addListener = function() {
 		var moneyButton = this.moneyButtonList[moneyButtonKey];
 
 		moneyButton.addEventListener("dragstart", this.eventTrigger.handleDragStart.bind(this.eventTrigger));
-		moneyButton.addEventListener("mousedown", this.checkMoneyButton.bind(this));
+		moneyButton.addEventListener("mousedown", this.handleMouseDown.bind(this));
 	}
 };
 
@@ -159,7 +159,7 @@ User.prototype.checkMoneyButtonList = function() {
 	}
 };
 
-User.prototype.checkMoneyButton = function(e) {
+User.prototype.handleMouseDown = function(e) {
 	var moneyButton = e.target;
 
 	if (moneyButton.classList.contains("no-money")) {
