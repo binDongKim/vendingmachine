@@ -122,6 +122,7 @@ Record.prototype.showRecord = function(record) {
 	li.textContent = record;
 
 	this.recordListContainer.appendChild(li);
+	
 	this.goScrollToBottom();
 };
 

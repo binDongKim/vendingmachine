@@ -59,7 +59,6 @@ function MoneyInOut(eventTrigger, {moneyLimit = 3000, billLimit = 2} = {}) {
 }
 
 MoneyInOut.prototype.attachTrigger = function() {
-	// this.eventTrigger.on("DRAG_OVER", this.handleDragOver.bind(this));
 	this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDrop.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
 	this.eventTrigger.on("CHECK_ENOUGH_MONEY", this.checkEnoughMoney.bind(this));
@@ -86,18 +85,13 @@ MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 
 MoneyInOut.prototype.addListener = function() {
 	var that = this;
-	// this.moneyPutArea.addEventListener("dragover", this.eventTrigger.handleDragOver.bind(this.eventTrigger));
-	// this.moneyPutArea.addEventListener("drop", this.eventTrigger.handleDrop.bind(this.eventTrigger));
+
 	this.moneyBackButton.addEventListener("click", function() {
 		var totalInsertedMoney = that.totalInsertedMoney;
 
 		that.eventTrigger.handleMoneyBackButtonClick.call(that.eventTrigger, totalInsertedMoney);
 	});
 };
-
-// MoneyInOut.prototype.handleDragOver = function(e) {
-// 	e.preventDefault();
-// };
 
 MoneyInOut.prototype.checkMaxMoneyLimit = function(money) {
 	return this.totalInsertedMoney + money <= this.moneyLimit;
@@ -107,7 +101,6 @@ MoneyInOut.prototype.checkMaxBillLimit = function(money) {
 	return this.currentBillCount !== this.billLimit;
 };
 
-//TODO: isMoneyAcceptable 리팩토링.
 MoneyInOut.prototype.handleDrop = function(e) {
 	e.preventDefault();
 
@@ -140,8 +133,6 @@ MoneyInOut.prototype.handleMoneyBackButtonClick = function() {
 	this.totalInsertedMoney = 0;
 	this.currentBillCount = 0;
 	this.totalInsertedMoneySpan.textContent = `${this.totalInsertedMoney}원`;
-
-	// this.eventTrigger.totalInsertedMoneyChanged(this.totalInsertedMoney);
 };
 
 MoneyInOut.prototype.checkEnoughMoney = function(product) {
