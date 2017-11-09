@@ -74,8 +74,8 @@ MoneyInOut.prototype.init = function(vendingMachineWrapper) {
 	moneyBackButtonWrapper.appendChild(this.moneyBackButton);
 	totalInsertedMoneyTextContainerWrapper.appendChild(this.totalInsertedMoneyTextContainer);
 
-	moneyInOutWrapper.appendChild(moneyPutAreaWrapper);
 	moneyInOutWrapper.appendChild(totalInsertedMoneyTextContainerWrapper);
+	moneyInOutWrapper.appendChild(moneyPutAreaWrapper);
 	moneyInOutWrapper.appendChild(moneyBackButtonWrapper);
 
 	vendingMachineWrapper.appendChild(moneyInOutWrapper);
