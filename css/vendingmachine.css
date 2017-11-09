@@ -95,6 +95,18 @@ p {
 	padding: 10px;
 }
 
+.purchased-product-list-wrapper {
+	/*border-top: 1px solid black;*/
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.purchased-product-wrapper {
+	/*width: 12%;*/
+	box-sizing: border-box;
+	text-align: center;
+}
+
 .record-wrapper {
 	/*display: inline-block;
 	width: 45%;*/

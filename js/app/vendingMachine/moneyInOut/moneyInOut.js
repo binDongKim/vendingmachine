@@ -142,7 +142,7 @@ MoneyInOut.prototype.handleMoneyBackButtonClick = function() {
 	this.currentBillCount = 0;
 	this.totalInsertedMoneySpan.textContent = `${this.totalInsertedMoney}원`;
 
-	this.eventTrigger.totalInsertedMoneyChanged(this.totalInsertedMoney);
+	// this.eventTrigger.totalInsertedMoneyChanged(this.totalInsertedMoney);
 };
 
 MoneyInOut.prototype.checkEnoughMoney = function(product) {

@@ -22,11 +22,16 @@ App.prototype.handleDragOver = function(e) {
 };
 
 App.prototype.handleDrop = function(e) {
-	var targetClassList = e.target.classList;
+	var targetElement = e.target;
+	var moneyPutAreaWrapper = document.querySelector(".money-put-area-wrapper");
+	var userWrapper = document.querySelector(".user-wrapper");
 
-	//TODO: div, p 각각 체크하는 방법 말고 다른방법이 없을지.
-	if (targetClassList.contains("money-put-area-text") || targetClassList.contains("money-put-area-wrapper")) {
+	if (moneyPutAreaWrapper.contains(targetElement)) {
+		// 투입구에 돈 넣었을때
 		this.eventTrigger.handleDropOnTarget(e);
+	} else if (userWrapper.contains(targetElement)) {
+		// 지갑에 다시 넣었을때
+		this.eventTrigger.handleDropOnUser(e);
 	} else {
 		this.eventTrigger.handleDropOffTarget(e);
 	}

@@ -11,7 +11,7 @@ function Product(eventTrigger, {id, name, enName, price}) {
 			image.alt = name;
 			figcaption.textContent = `${price}원`;
 			figure.className = "product-figure";
-			figure.id = id;
+			figure.dataset.productId = id;
 			figure.dataset.price = price;
 
 			figure.appendChild(image);
@@ -24,7 +24,7 @@ function Product(eventTrigger, {id, name, enName, price}) {
 			var p = document.createElement("p");
 
 			p.className = "product-state-text-container";
-			p.id = id;
+			p.dataset.productId = id;
 			p.textContent = "";
 
 			return p;

@@ -25,6 +25,7 @@ function ProductDisplay(eventTrigger) {
 ProductDisplay.prototype.attachTrigger = function() {
 	this.eventTrigger.on("PRODUCT_CLICKED", this.handleProductClick.bind(this));
 	this.eventTrigger.on("TOTAL_INSERTED_MONEY_CHANGED", this.showProductState.bind(this));
+	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.hideProductState.bind(this));
 	this.eventTrigger.on("PURCHASE", this.purchase.bind(this));
 	this.eventTrigger.on("WARN_SHORT_OF_MONEY", this.warnShortOfMoney.bind(this));
 };
@@ -43,7 +44,7 @@ ProductDisplay.prototype.init = function(vendingMachineWrapper) {
 
 ProductDisplay.prototype.handleProductClick = function(e) {
 	var clickedProduct = this.productList.find(function(productObj) {
-		return productObj.id === e.currentTarget.id;
+		return productObj.id === e.currentTarget.dataset.productId;
 	});
 
 	if (clickedProduct.amount === 0) {
@@ -63,6 +64,14 @@ ProductDisplay.prototype.showProductState = function(totalInsertedMoney) {
 			}
 		} else {
 			productObj.productStateTextContainer.textContent = "품절";
+		}
+	});
+};
+
+ProductDisplay.prototype.hideProductState = function() {
+	this.productList.forEach(function(productObj) {
+		if (productObj.amount !== 0) {
+			productObj.productStateTextContainer.textContent = "";
 		}
 	});
 };

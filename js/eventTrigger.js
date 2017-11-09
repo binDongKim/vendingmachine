@@ -14,6 +14,10 @@ EventTrigger.prototype.handleDropOnTarget = function(e) {
 	this.trigger("DROPPED_ON_TARGET", [e]);
 };
 
+EventTrigger.prototype.handleDropOnUser = function(e) {
+	this.trigger("DROPPED_ON_USER", [e]);
+};
+
 EventTrigger.prototype.handleDropOffTarget = function(e) {
 	this.trigger("DROPPED_OFF_TARGET", [e]);
 };

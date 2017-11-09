@@ -61,7 +61,7 @@ function User(eventTrigger, {name = "김동빈", myMoney = 10000} = {}) {
 	// this.takeoutMoney = 0;
 	// this.putMoney = 0;
 	// this.lostMoney = 0;
-	this.purchasedProductList = [];
+	this.purchasedProductMap = new Map();
 
 	this.moneyButtonList = {
 		"fiftyCoinButton": userDOMBuildFuncs.getCoinButton("fifty"),
@@ -78,8 +78,8 @@ function User(eventTrigger, {name = "김동빈", myMoney = 10000} = {}) {
 
 User.prototype.attachTrigger = function() {
 	this.eventTrigger.on("DRAG_STARTED", this.handleDragStart.bind(this));
-	// this.eventTrigger.on("DROPPED_ON_TARGET", this.handleDropOnTarget.bind(this));
 	this.eventTrigger.on("MONEY_ACCEPTED", this.moneyAccepted.bind(this));
+	this.eventTrigger.on("DROPPED_ON_USER", this.handleDropOnUser.bind(this));
 	this.eventTrigger.on("DROPPED_OFF_TARGET", this.handleDropOffTarget.bind(this));
 	this.eventTrigger.on("CHECK_USER_MONEY", this.checkUserMoney.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.handleMoneyBackButtonClick.bind(this));
@@ -90,6 +90,7 @@ User.prototype.init = function() {
 	var userWrapper = dom.getWrapperAround("user-wrapper");
 	var moneyListWrapper = dom.getWrapperAround("money-list-wrapper");
 	var myMoneyTextContainerWrapper = dom.getWrapperAround("my-money-text-container-wrapper");
+	var purchasedProductListWrapper = dom.getWrapperAround("purchased-product-list-wrapper");
 
 	for (var moneyButton in this.moneyButtonList) {
 		var moneyWrapper = dom.getWrapperAround("money-wrapper");
@@ -102,6 +103,7 @@ User.prototype.init = function() {
 
 	userWrapper.appendChild(moneyListWrapper);
 	userWrapper.appendChild(myMoneyTextContainerWrapper);
+	userWrapper.appendChild(purchasedProductListWrapper);
 
 	dom.root.appendChild(userWrapper);
 
@@ -119,15 +121,6 @@ User.prototype.handleDragStart = function(e) {
 	e.dataTransfer.setData("text", e.target.dataset.moneyValue);
 };
 
-// User.prototype.handleDropOnTarget = function(e) {
-// 	var droppedMoney = Number(e.dataTransfer.getData("text"));
-//
-// 	this.putMoney += droppedMoney;
-// 	this.myMoney -= droppedMoney;
-//
-// 	this.myMoneySpan.textContent = `${this.myMoney}원`;
-// };
-
 User.prototype.moneyAccepted = function(droppedMoney) {
 	// this.putMoney += droppedMoney;
 	this.myMoney -= droppedMoney;
@@ -135,7 +128,11 @@ User.prototype.moneyAccepted = function(droppedMoney) {
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 
 	this.eventTrigger.checkUserMoney();
-}
+};
+
+User.prototype.handleDropOnUser = function(e) {
+	// Nothing happens
+};
 
 User.prototype.handleDropOffTarget = function(e) {
 	var lostMoney = Number(e.dataTransfer.getData("text"));
@@ -167,8 +164,36 @@ User.prototype.checkUserMoney = function() {
 };
 
 User.prototype.purchase = function(product) {
-	// var price = e.currentTarget.dataset.price;
-	//
-	// this.putMoney -= Number(price);
-	//TODO: purchasedProductList에 추가하기.
+	var purchasedProduct = this.purchasedProductMap.get(product.id);
+	var purchasedProductWrapper = dom.getWrapperAround("purchased-product-wrapper");
+	var purchasedProductListWrapper = document.querySelector(".purchased-product-list-wrapper");
+
+	if (purchasedProduct) {
+		var purchasedProductFigure = document.querySelector(`[data-purchased-product-id=${purchasedProduct.product.id}]`);
+
+		purchasedProductFigure.querySelector("figcaption").textContent = `${++purchasedProduct.amount}개`;
+	} else {
+		this.purchasedProductMap.set(product.id, {
+			"amount": 1,
+			"product": product
+		});
+
+		var figure = document.createElement("figure");
+		var image = document.createElement("img");
+		var figcaption = document.createElement("figcaption");
+
+		image.src = `../images/product/${product.enName}.png`;
+		image.width = 64;
+		image.height = 64;
+		image.alt = product.enName;
+		figcaption.textContent = "1개";
+		figure.dataset.purchasedProductId = product.id;
+
+		figure.appendChild(image);
+		figure.appendChild(figcaption);
+		purchasedProductWrapper.appendChild(figure);
+		purchasedProductListWrapper.appendChild(purchasedProductWrapper);
+	}
+
+	purchasedProductListWrapper.style.borderTop = "1px solid black";
 };
