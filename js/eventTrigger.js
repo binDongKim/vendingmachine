@@ -46,8 +46,8 @@ EventTrigger.prototype.purchase = function(product) {
 	this.trigger("PURCHASE", [product]);
 };
 
-EventTrigger.prototype.warnShortOfMoney = function(product) {
-	this.trigger("WARN_SHORT_OF_MONEY", [product]);
+EventTrigger.prototype.warnShortOfMoneyOnMachine = function(product) {
+	this.trigger("WARN_SHORT_OF_MONEY_ON_MACHINE", [product]);
 };
 
 EventTrigger.prototype.warnSoldOut = function(product) {
@@ -56,4 +56,8 @@ EventTrigger.prototype.warnSoldOut = function(product) {
 
 EventTrigger.prototype.checkEnoughMoney = function(product) {
 	this.trigger("CHECK_ENOUGH_MONEY", [product]);
+};
+
+EventTrigger.prototype.warnShortOfMoneyOnUser = function() {
+	this.trigger("WARN_SHORT_OF_MONEY_ON_USER");
 };

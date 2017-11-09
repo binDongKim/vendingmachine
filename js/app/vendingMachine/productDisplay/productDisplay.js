@@ -27,7 +27,7 @@ ProductDisplay.prototype.attachTrigger = function() {
 	this.eventTrigger.on("TOTAL_INSERTED_MONEY_CHANGED", this.showProductState.bind(this));
 	this.eventTrigger.on("MONEY_BACK_BUTTON_CLICKED", this.hideProductState.bind(this));
 	this.eventTrigger.on("PURCHASE", this.purchase.bind(this));
-	this.eventTrigger.on("WARN_SHORT_OF_MONEY", this.warnShortOfMoney.bind(this));
+	this.eventTrigger.on("WARN_SHORT_OF_MONEY_ON_MACHINE", this.warnShortOfMoneyOnMachine.bind(this));
 };
 
 ProductDisplay.prototype.init = function(vendingMachineWrapper) {
@@ -84,6 +84,6 @@ ProductDisplay.prototype.purchase = function(product) {
  	purchasedProduct.amount--;
 };
 
-ProductDisplay.prototype.warnShortOfMoney = function(product) {
+ProductDisplay.prototype.warnShortOfMoneyOnMachine = function(product) {
 
 };

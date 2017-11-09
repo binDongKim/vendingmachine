@@ -33,8 +33,9 @@ Record.prototype.attachTrigger = function() {
 	this.eventTrigger.on("MONEY_ACCEPTED", this.makeMoneyAcceptedRecord.bind(this));
 	this.eventTrigger.on("MONEY_REFUSED", this.makeMoneyRefusedRecord.bind(this));
 	this.eventTrigger.on("PURCHASE", this.makePurchaseRecord.bind(this));
-	this.eventTrigger.on("WARN_SHORT_OF_MONEY", this.makeWarnShortOfMoneyRecord.bind(this));
+	this.eventTrigger.on("WARN_SHORT_OF_MONEY_ON_MACHINE", this.makeWarnShortOfMoneyOnMachineRecord.bind(this));
 	this.eventTrigger.on("WARN_SOLD_OUT", this.makeWarnSoldOutRecord.bind(this));
+	this.eventTrigger.on("WARN_SHORT_OF_MONEY_ON_USER", this.makeWarnShortOfMoneyOnUserRecord.bind(this));
 };
 
 Record.prototype.init = function() {
@@ -96,14 +97,20 @@ Record.prototype.makePurchaseRecord = function(product) {
 	this.showRecord(record);
 };
 
-Record.prototype.makeWarnShortOfMoneyRecord = function() {
-	var record = `돈이 모자랍니다.`;
+Record.prototype.makeWarnShortOfMoneyOnMachineRecord = function() {
+	var record = `투입 금액이 모자랍니다.`;
 
 	this.showRecord(record);
 };
 
 Record.prototype.makeWarnSoldOutRecord = function(product) {
 	var record = `${product.name}는 품절입니다.`;
+
+	this.showRecord(record);
+};
+
+Record.prototype.makeWarnShortOfMoneyOnUserRecord = function() {
+	var record = `지갑에 돈이 모자랍니다.`;
 
 	this.showRecord(record);
 };

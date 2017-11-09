@@ -151,7 +151,7 @@ MoneyInOut.prototype.checkEnoughMoney = function(product) {
 	if (isMoneyEnough) {
 		this.eventTrigger.purchase(product);
 	} else {
-		this.eventTrigger.warnShortOfMoney(product);
+		this.eventTrigger.warnShortOfMoneyOnMachine(product);
 	}
 };
 

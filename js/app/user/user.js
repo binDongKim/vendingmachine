@@ -58,9 +58,6 @@ function User(eventTrigger, {name = "김동빈", myMoney = 10000} = {}) {
 	this.eventTrigger = eventTrigger;
 	this.name = name;
 	this.myMoney = myMoney;
-	// this.takeoutMoney = 0;
-	// this.putMoney = 0;
-	// this.lostMoney = 0;
 	this.purchasedProductMap = new Map();
 
 	this.moneyButtonList = {
@@ -111,22 +108,23 @@ User.prototype.init = function() {
 
 User.prototype.addListener = function() {
 	for (var moneyButtonKey in this.moneyButtonList) {
-		this.moneyButtonList[moneyButtonKey].addEventListener("dragstart", this.eventTrigger.handleDragStart.bind(this.eventTrigger));
+		var moneyButton = this.moneyButtonList[moneyButtonKey];
+
+		moneyButton.addEventListener("dragstart", this.eventTrigger.handleDragStart.bind(this.eventTrigger));
+		moneyButton.addEventListener("mousedown", this.checkMoneyButton.bind(this));
 	}
 };
 
 User.prototype.handleDragStart = function(e) {
-	// this.takeoutMoney = e.target.dataset.moneyValue;
 	e.dataTransfer.setData("text", e.target.dataset.moneyValue);
 };
 
 User.prototype.moneyAccepted = function(droppedMoney) {
-	// this.putMoney += droppedMoney;
 	this.myMoney -= droppedMoney;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 
-	this.checkUserMoney();
+	this.checkMoneyButtonList();
 };
 
 User.prototype.handleDropOnUser = function(e) {
@@ -141,23 +139,31 @@ User.prototype.handleDropOffTarget = function(e) {
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 
-	this.checkUserMoney();
+	this.checkMoneyButtonList();
 };
 
 User.prototype.handleMoneyBackButtonClick = function(totalInsertedMoney) {
 	this.myMoney += totalInsertedMoney;
-	// this.putMoney = 0;
 
 	this.myMoneySpan.textContent = `${this.myMoney}원`;
 };
 
-User.prototype.checkUserMoney = function() {
+User.prototype.checkMoneyButtonList = function() {
 	for (var moneyButtonKey in this.moneyButtonList) {
 		var moneyButton = this.moneyButtonList[moneyButtonKey];
 
 		if (this.myMoney < Number(moneyButton.dataset.moneyValue)) {
 			moneyButton.setAttribute("draggable", false);
+			moneyButton.classList.add("no-money");
 		}
+	}
+};
+
+User.prototype.checkMoneyButton = function(e) {
+	var moneyButton = e.target;
+
+	if (moneyButton.classList.contains("no-money")) {
+		this.eventTrigger.warnShortOfMoneyOnUser();
 	}
 };
 
