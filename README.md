@@ -93,11 +93,11 @@
   - Product
   - MoneyInOut
   - Record
-  - User(?)
+  - User
 
 
 
-*고민1. User를 Vendingmachine의 일부로 넣을지, 따로 존재하게 할지 여부*
+*~~고민1. User를 Vendingmachine의 일부로 넣을지, 따로 존재하게 할지 여부~~*
 
 
 
@@ -143,11 +143,14 @@
 
 - Record
   - 프로퍼티
-    - record
+    - recordHeader
+    - recordListContainer
   - 메서드
-    - printRecord
+    - makeACTIONRecord
+    - showRecord
+    - goScrollToBottom
 
-  *고민2. {행동: 메시지}를 프로퍼티로 가질지 여부*
+  *~~고민2. {행동: 메시지}를 프로퍼티로 가질지 여부~~*
 
 - User
 
@@ -162,13 +165,14 @@
     - ondrag
       - takeoutMoney
     - checkUserMoney
+    - showPurchasedProduct
 
 *투입구가 아닌 영역에 ondrop이벤트 발생시 loseMoney 트리거*
 
 ### 3.2 기술 스택 
 
 - ES5 Vanilla JS
-- Webpack
+- ~~Webpack~~
 - 단위 테스트: Mocha + Chai
 - ~~정적 코드 검사: eslint-config-naver기반~~
 
