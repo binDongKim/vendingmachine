@@ -58,11 +58,18 @@ ProductDisplay.prototype.showProductState = function(totalInsertedMoney) {
 	this.productList.forEach(function(productObj) {
 		if (productObj.amount !== 0) {
 			if (totalInsertedMoney >= productObj.price) {
+				productObj.productFigure.classList.remove("short-of-money-onmachine");
+				productObj.productFigure.classList.add("purchaseable");
 				productObj.productStateTextContainer.textContent = "구매가능";
 			} else {
+				productObj.productFigure.classList.remove("purchaseable");
+				productObj.productFigure.classList.add("short-of-money-onmachine");
 				productObj.productStateTextContainer.textContent = "돈 부족";
 			}
 		} else {
+			productObj.productFigure.classList.remove("purchaseable");
+			productObj.productFigure.classList.remove("short-of-money-onmachine");
+			productObj.productFigure.classList.add("sold-out");
 			productObj.productStateTextContainer.textContent = "품절";
 		}
 	});
@@ -71,6 +78,8 @@ ProductDisplay.prototype.showProductState = function(totalInsertedMoney) {
 ProductDisplay.prototype.hideProductState = function() {
 	this.productList.forEach(function(productObj) {
 		if (productObj.amount !== 0) {
+			productObj.productFigure.classList.remove("purchaseable");
+			productObj.productFigure.classList.remove("short-of-money-onmachine");
 			productObj.productStateTextContainer.textContent = "";
 		}
 	});

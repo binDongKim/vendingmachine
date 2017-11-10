@@ -23,6 +23,8 @@ App.prototype.handleDragOver = function(e) {
 };
 
 App.prototype.handleDrop = function(e) {
+	e.preventDefault();
+
 	var targetElement = e.target;
 	var moneyPutAreaWrapper = document.querySelector(".money-put-area-wrapper");
 	var userWrapper = document.querySelector(".user-wrapper");
